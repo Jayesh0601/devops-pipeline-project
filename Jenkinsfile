@@ -1,9 +1,8 @@
-
 pipeline {
     agent any
     
     environment {
-       DOCKER_IMAGE = "jayeshdaud06/devops-pipeline-project"
+        DOCKER_IMAGE = "jayeshdaud06/devops-pipeline-project"
         DOCKER_TAG = "${BUILD_NUMBER}"
     }
     
@@ -77,14 +76,20 @@ pipeline {
         stage('Update K8s Manifest') {
             steps {
                 echo 'Updating Kubernetes deployment manifest...'
-                sh """
-                    sed -i 's|image:.*|image: ${DOCKER_IMAGE}:${DOCKER_TAG}|g' k8s/deployment.yaml
-                    git config user.email "jenkins@devops.com"
-                    git config user.name "Jenkins"
-                    git add k8s/deployment.yaml
-                    git commit -m "Update image tag to ${DOCKER_TAG}"
-                    git push origin main
-                """
+                withCredentials([usernamePassword(
+                    credentialsId: 'github-credentials',
+                    usernameVariable: 'GIT_USER',
+                    passwordVariable: 'GIT_PASS'
+                )]) {
+                    sh """
+                        sed -i 's|image:.*|image: ${DOCKER_IMAGE}:${DOCKER_TAG}|g' k8s/deployment.yaml
+                        git config user.email "jenkins@devops.com"
+                        git config user.name "Jenkins"
+                        git add k8s/deployment.yaml
+                        git commit -m "Update image tag to ${DOCKER_TAG} [skip ci]"
+                        git push https://${GIT_USER}:${GIT_PASS}@github.com/Jayesh0601/devops-pipeline-project.git main
+                    """
+                }
             }
         }
     }
