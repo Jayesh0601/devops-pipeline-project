@@ -27,7 +27,8 @@ pipeline {
         stage('Run Tests') {
             steps {
                 echo 'Running automated tests...'
-                sh 'pytest test_app.py -v'
+                // Explicitly calling pytest via python3 to avoid PATH resolution issues
+                sh 'python3 -m pytest test_app.py -v'
             }
         }
         
