@@ -32,13 +32,13 @@ pipeline {
             }
         }
         
-        stage('SonarQube Analysis') {
+       stage('SonarQube Analysis') {
             steps {
                 echo 'Running SonarQube code quality scan...'
                 withSonarQubeEnv('SonarQube') {
                     sh '''
                         sonar-scanner \
-                        -Dsonar.projectKey=devops-pipeline \
+                        -Dsonar.projectKey=DevOps-Pipeline \
                         -Dsonar.sources=. \
                         -Dsonar.host.url=http://localhost:9000
                     '''
