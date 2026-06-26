@@ -40,7 +40,8 @@ pipeline {
                         sonar-scanner \
                         -Dsonar.projectKey=DevOps-Pipeline \
                         -Dsonar.sources=. \
-                        -Dsonar.host.url=http://localhost:9000
+                        -Dsonar.host.url=http://localhost:9000 \
+                        -Dsonar.exclusions="**/.*,**/*.pyc,**/__pycache__/**,*.tmp,*.log,venv/**"
                     '''
                 }
             }
