@@ -1,0 +1,19 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: devops-app-alerts
+  namespace: monitoring
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: devops-app.rules
+      rules:
+        - alert: DevOpsAppPodsDown
+          expr: sum(kube_deployment_status_replicas_available{deployment="devops-app"}) < 2
+          for: 1m
+          labels:
+            severity: warning
+          annotations:
+            summary: "Devops app has fewer than 2 healthy pods"
+            description: "Expected 2 replicas of devops-app, but only {{ $value }} are currently available."
