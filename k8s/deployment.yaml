@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: devops-app
-        image: jayeshdaud06/devops-pipeline-project:22
+        image: jayeshdaud06/devops-pipeline-project:6
         ports:
         - containerPort: 5000
