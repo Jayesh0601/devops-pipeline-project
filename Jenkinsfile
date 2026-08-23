@@ -19,7 +19,7 @@ pipeline {
             steps {
                 echo 'Installing Python dependencies...'
                 // Added --break-system-packages to bypass the PEP 668 restriction safely in CI/CD
-                sh 'pip3 install -r requirements.txt 
+                sh 'pip3 install -r requirements.txt' 
             }
         
         }
