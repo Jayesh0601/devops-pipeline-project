@@ -66,7 +66,7 @@ pipeline {
             steps {
                 echo 'Pushing image to DockerHub...'
                 withCredentials([usernamePassword(
-                    credentialsId: 'dockerhub-credentials',
+                    credentialsId: 'dockerhub-creds',
                     usernameVariable: 'DOCKER_USER',
                     passwordVariable: 'DOCKER_PASS'
                 )]) {
@@ -80,7 +80,7 @@ pipeline {
         stage('Update K8s Manifest') {
             steps {
                 echo 'Updating Kubernetes deployment manifest...'
-                withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
+                withCredentials([usernamePassword(credentialsId: 'github-creds', passwordVariable: 'GIT_PASS', usernameVariable: 'GIT_USER')]) {
                     sh """
                         # Update the image tag in the manifest file
                         sed -i 's|image:.*|image: jayeshdaud06/devops-pipeline-project:${BUILD_NUMBER}|g' k8s/deployment.yaml
